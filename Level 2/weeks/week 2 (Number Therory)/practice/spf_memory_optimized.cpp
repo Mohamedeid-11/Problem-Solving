@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// get the smallest prive factor of a number (spf)
+// get the smallest prime factor of a number (spf)
 
 // reduce N
 const int N = 1e6 + 7;

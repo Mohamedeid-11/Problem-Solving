@@ -2,7 +2,7 @@
 using namespace std;
 
 // Depth first search
-// it priority is to reach the deepest node
+// its priority is to reach the deepest node
 
 int const N = 1e4;
 bool vis[N]{};

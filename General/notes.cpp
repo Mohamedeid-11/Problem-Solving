@@ -17,7 +17,6 @@ int main() {
 }
 
 
-
 // Special Problems
 // Level 1\weeks\week 3\sheet\I_Snacktower  -->  https://codeforces.com/group/g3REqA871s/contest/570641/problem/I
 // Level 1\weeks\week 3\sheet\L_Yet Another Broken Keyboard.cpp  -->  https://codeforces.com/group/g3REqA871s/contest/570641/problem/L
@@ -25,48 +24,63 @@ int main() {
 
 
 
-// DO NOT EXCEED SIZE LIMIT
+//                                              DO NOT EXCEED SIZE LIMIT
 // max int: 10^9
 // max long long: 10^18 
 // float offers single-precision, providing approximately 6-7 significant decimal digits of precision.
 // double offers double-precision, providing approximately 15-17 significant decimal digits of precision.
 int n = 1e5, l = 1e9;
-long long a = (long long)n*n - (long long)l*l;      // or:      (static_cast<long long>(n) * n) - (static_cast<long long>(l) * l);
+long long a = (1LL)*n*n + (long long)l*l;      // or:      (static_cast<long long>(n) * n) - (static_cast<long long>(l) * l);
 cout << a;
 
+//                                                    Complexity
+// n ≤ 12           O(n!)
+// n ≤ 25           O(2^n)
+// n ≤ 500          O(n^3)
+// n ≤ 10^4         O(n^2)
+// n ≤ 10^6         O(n*Log(n))
+// n ≤ 10^8         O(n)
+// n ≤ 10^18        O(Log(n)), O(1)
+
+// --> For small (n) and complicated problems consider using (Brute Force), that might be trying;
+// All possiple subsets O(2^n)
+// All possible permutations O(n!)
 
 
-// Reaed & Write
-    // The C functions scanf and printf 
-    // alternative to the C++ standard streams. They are usually a bit faster, but they are also more difficult to use.
-        int a, b;
-        scanf("%d %d", &a, &b);
-        printf("%d %d\n", a, b);
 
-    // Read line
-        string s;
-        getline(cin, s);
+//                                                  Read & Write
+// The C functions scanf and printf
+// alternative to the C++ standard streams. They are usually a bit faster, but they are also more difficult to use.
+int a, b;
+scanf("%d %d", &a, &b);
+printf("%d %d\n", a, b);
 
-    // Unknown amount of data
-        while (cin >> x) {
-        // code
-        }
+// Read line
+string s;
+getline(cin, s);
 
-    // Files
-        freopen("input.txt", "r", stdin);
-        freopen("output.txt", "w", stdout);
+// Unknown amount of data
+while (cin >> x)
+{
+    ;
+}
+
+// Files
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
 //
 
 
 
-/* Type Conversion
-    -Implicit conversion: Conversion Is Automatically done By The Compiler
-    -Explicit conversion(Type casting): Conversion Is done By The Programmer:
-        int c = 90;
-        cout << char(c) << endl;
+/*                                              (Type Conversion)
+
+-Implicit conversion: Conversion Is Automatically done By The Compiler
+-Explicit conversion(Type casting): Conversion Is done By The Programmer:
+    int c = 90;
+    cout << char(c) << endl;
 */
 
-// Pointer - Reference 
+//                                            (Pointer - Reference)
 int x = 5;
 cout << &x << endl;   // cout pointer of x (reference operator)    
 
@@ -89,6 +103,51 @@ num = nullptr;
 
 
 // Arrays
+/* Linked List:
+    - When You don't know how many items will be in the list.
+    - Types:
+        1. Singly Linked List   --> each node points to the next
+        2. Doubly Linked List   --> each node points to prev and next
+        3. Circular Linked List --> Doubly Linked List but (the head and the tail points to each other)
+
+    - STL --> list<T>
+        Doubly Linked
+        No Random Access O(n): You must traverse the list using iterators.
+        Dynamic Size: Lists can grow or shrink dynamically as elements are added or removed
+
+        list<int> l;
+
+    // push (front, back)
+        l.push_back(5);
+        l.push_back(7);
+
+        l.push_front(4);
+        l.push_front(1); // 1 4 5 7
+
+    // pop (front, back)
+        l.pop_front();   // 4 5 7
+
+    // size
+        cout << "size: " << l.size() << '\n';
+
+    // insert
+        for(auto i = l.begin(); i != l.end(); i++)
+        {
+            if(*i == 7)
+            {
+                l.insert(i, 6); // 4 5 6 7
+                break;
+            }
+        }
+
+    // print
+        for(auto node : l)
+        {
+            cout << node << ' ';
+        }
+*/
+// Array List:
+// When random access is the most important. O(1)
 // memory is allocated at compile time(at the stack) having a fixed size. We cannot update the size of this array.
     int a[] = {1, 2, 3};
     cout << *(a+2); //  3
@@ -201,10 +260,17 @@ cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" :
 
 #include<algorithm>
 
-    // Sort
+    // Sort O(n*log(n))
     sort(arr, arr + n)
     sort(arr, arr + n, greater<int>());     // sort in descending order
     sort(vec.begin(), vec.end());           // sort string or vector. use begin(), end() iterators   (end() points one after the last char)
+    
+    /* Some sort alogorithms: 
+        - bubble sort, insertion sort, selection sort --> O(n^2) 
+        (exmple) Bubble Sort: compares adjacent elements and swaps them if they are in the wrong order. (move smaller elemments into the far left or larger elements into the far right)
+                
+        - Merge Sort O(n*log(n)): divides the array into halves, sorts each half, and then merges the sorted halves back together. (divide and conquer)
+    */
 
     // Reverse
     reverse(arr, arr + n)
@@ -214,6 +280,15 @@ cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" :
 
     // Index of value
     distance(arr, find(arr, arr + n, a))    // get index of element (a) in array (arr) with size(n)
+
+    // Permutations
+        vector<int> v = {1, 2, 3};
+        sort(v.begin(), v.end()); // Sort first to ensure we start from the beginning
+
+        do {
+            for (int i : v) cout << i << " ";
+            cout << "\n";
+        } while (next_permutation(v.begin(), v.end()));
 //
 
 #include<iomanip>
@@ -242,6 +317,8 @@ cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" :
 
     s.begin()                   // gets an iterator to the first element in an string
     s.end()                     // gets an iterator to the last element in an string -->('\0')
+
+    s.find(c)                   // returns char (c) first occurance index
 
     s.erase()                   // Erases whole string
     s.erase(idx)                // Erases all characters after idx
@@ -304,17 +381,120 @@ bool hasNoDecimal(double x)
     }
 //
 
-/* Partial Sum
-    Given q ranges of the form [l,r], find for each point x∈[1,n]
-    the number of ranges that contain that point.
+// Data Structures & STL
+/* 
+Stack
+    A box with one open side that follows the Last In First Out (LIFO) principle.
 
-    Solution: arr[l]++ and arr[r+1]-- ,then after taking all ranges perform (prefix sum)
+Queue
+    A box with an adding side and a removing side that follows the First In First Out (FIFO) principle.
+
+Deque
+    A box that allow adding and removing from both sides. 
+    similar to vectors (supports random access), but more efficient in inserting and deleting elements
+
+Priority queue
+    - A container that allows fast retrieval of the largest (or smallest) element.
+    - sort the elements. 
+    - methods:
+        - pq.top() in O(1) 
+        - pq.push() & pq.pop() in O(log(n))
+
+    - min priority queue: 
+        priority_queue<int, vector<int>, greater<int>> mpq; 
+
+
+Inner Structures:
+
+    - Balanced Binary Tree  (Binary Search Tree - BST):
+        Has the following properties:
+        - The left subtree of a node contains smaller nodes only.
+        - The right subtree of a node contains greater nodes only.
+        - The left and right subtree each must also be a binary search tree.
+
+    - Hash table: 
+        1. When you insert an element, a hash function (std::hash by default) takes it and produces a (unique hash value).
+        2. This hash value is mapped to a specific "bucket" using a modulo operation (we have a finite number of buckets and we have to reuse them); bucketIndex = hashValue % totalBuckets.
+        3. The element is stored in that bucket if it's unique hash value doesn't already exist.
+        - we can then find any value in O(1) by getting its hash value and then looking in the corresponding bucket.
+                                    
+        - Some problems might include anti-hash tests, which can cuase it run in O(n^2)
     
-    For [1, 3] 
-    arr = [1,0,0,−1,0,0]
-    arr = [1, 1, 1, 0, 0, 0]  // after prefix sum
+                                    (BST vs hash table)
+    ----------------- unordered_container   vs    container ---------------------------
+    | Implementation    Hash Table	                Balanced Binary Tree (Red-Black)  |
+    | Average Speed	    O(1)                        O(log N)                          | (adding, removing, and checking)
+    | Worst-Case	    O(N)                        O(log N)                          |
+    | Ordering          None                        Sorted                            |
+    -----------------------------------------------------------------------------------
+
+
+Set
+    - A (UNIQUE) set of elements. (doesn't support random access)
+
+    - The C++ standard library contains two set implementations: The structure
+        1. set                       --> (ordered) based on a BST average operation time: O(log(n)).
+        2. unordered_set (Hashsets)  --> (unordered) based on Hash Table, average operation time: O(1).
+  
+
+    - BST set Methods:
+        - insert():           Adds an element to the set. O(log(n))
+        
+        - count(element):     Returns (0, 1) indicating the number of occurrences of the element. O(log(n))
+        - find(element):      Returns an iterator to the element in the set if found, else returns the iterator to the end. O(log(n))
+        
+        - erase(pos):         Removes the element from the specified address from the set. O(1)
+        - erase(value):       Removes the specified element from the set. O(log(n))
+        - erase(first,last):  Removes the specified range of elements from the set. O(n)
+    
+    - Example:
+        set<int> s;
+        s.insert(3);
+        s.insert(5);
+        s.insert(3);
+        cout << s.count(3) << " " << s.count(4) << "\n\n"; // 1 0
+
+        s = {8, 5, 2, 8};
+        u_s.insert(3);
+        for (auto x : s) cout << x << "\n";   // 2 (3) 5 8 (ordered unique elements)
+        cout << endl;
+        
+        unordered_set<int> u_s = {8, 5, 2, 8};
+        u_s.insert(3);
+        for (auto x : u_s) cout << x << "\n";   // (3) 2 5 8 (Unordered unique elements)
+
+Multiset
+    - Exactly like set but elements are (NOT unique)
+    - have 2 versions also: multiset and unordered_multiset
+
+Map (dictionary)
+    - store key, value pairs where keys are unique.
+    - have 2 versions also: sorted maps (sort keys) and unordered_map (hashmaps)
+    - if you access a non-existing key, the map creates a place for it with an (defualt) value.
+        map<int, int> m;
+        cout << m[3];       // 0 (creates a pair: [3, 0] where 0 is the default int value)
+
+        
+- In a sorted container:
+    The lower_bound(k)      returns an iterator/pointer to the element (greater than or equal) to k.
+    The upper_bound(k)      returns an iterator/pointer to the element (greater) than k.
+    
+    - they use binary search so time complexity: O(log(N))
+    
+    int arr[5] = {1, 5, 6, 7, 8};
+    cout << "lower bound for element 5: " << *lower_bound(arr, arr + 5, 5) << endl;  // lower bound for element 5: 5
+    cout << "lower bound for element 3: " << *lower_bound(arr, arr + 5, 3) << endl;  // lower bound for element 3: 5
+    cout << "upper bound for element 5: " << *upper_bound(arr, arr + 5, 5) << endl;  // upper bound for element 5: 6
+
+
+    cout << "lower bound for element 5 is at index: " << lower_bound(arr, arr + 5, 5) - arr << endl;    // lower bound for element 5 is at index: 1
+    cout << "upper bound for element 10 is at index: " << upper_bound(arr, arr + 5, 10) - arr << endl;  // upper bound for element 10 is at index: 5 (Not Found)
 */
 
+/* Complete search
+    - A brute-force algorithm that tries all possible combinations(subsets, permutations) to find a solution.
+    - It is often used when the problem size is small or when there are no efficient algorithms available.
+*/
 
 /* How to solve Binary Search problems:
     1. Define a sorted search space (monotonic range (moves in one direction))
@@ -323,14 +503,12 @@ bool hasNoDecimal(double x)
     When to use Binary Search:
     - Searching for an element in a sorted array
     - Finding the first or last occurrence of an element
-    
     - Optimization problems: 
       Most number of burgers that don't exceed the budget (Level 1\weeks\week 4\sheet\B_Hamburgers.cpp)
 
     Complexity:
     - Time Complexity: O(log N) — the search space halves every step
 */ 
-
 
 /* How to solve recursion problems:
     1. Define the problem
@@ -343,7 +521,7 @@ bool hasNoDecimal(double x)
 
     Recursive vs Iterative Solution:
     - Any recursion problem can be solved iterativly
-    - Iteration has better space complixty (Doesn't use (call stack) space like recursion)
+    - Iteration has better space complixty (Doesn't use (call stack) like recursion)
     - Recursion has better readability, and sometimes it's much simpler
     - Recursion has 2 phases:
         1. Ascending Phase: Calling phase
@@ -353,8 +531,155 @@ bool hasNoDecimal(double x)
 
     Time comp   -->     nodes * T(node)
     Space comp  -->     depth (number of functions in the call stack)
+
+
+    --> A (backtracking) algorithm begins with an empty solution and extends the
+        solution step by step. 
+        The search recursively goes through all different ways how a solution can be constructed
 */
 
+/* Greedy Algorithm (a way of thinking)
+
+    - constructs a solution by always making the best choice at the moment 
+    
+    - it constructs the final solution directly, without backtracking or reconsidering previous choices. 
+      which makes it faster than other algorithms like dynamic programming, but it (doesn't always guarantee the optimal solution).
+      
+        (For example), for the following set of coins: {1,2,5,10,20,50,100,200} 
+        What is the minimum number of coins needed to make n (520)?
+        n = 520, we need at least four coins. The optimal solution is to select coins 200+200+100+20 whose sum is 520
+        --> A simple greedy algorithm to the problem always selects the largest possible coin, until the required sum of money has been constructed. 
+    
+    - Note: it often is not obvious whether a greedy algorithm is correct or not. If it is the intended solution, problem authors are expected to be able to prove its correctness. However, as a contestant, if the algorithm is easy to implement, one option is to just code it and see whether it passes. Competitive programmers refer to this as "Proof by AC," or "Proof by Accepted."
+        
+        (For example), if the coins are {1,3,4} and the target sum is 6, the greedy
+        algorithm produces the solution 4+1+1 while the optimal solution is 3+3.
+        It is not known if the general coin problem can be solved using any greedy algorithm
+
+
+    (Example) - Many scheduling problems can be solved using greedy algorithms. A classic problem is as follows: 
+    Given n events with their starting and ending times, find a schedule that includes as many events as possible. 
+    It is not possible to select an event partially. For example, consider the following events: 
+    event | starting time | ending time
+    A     | 1             | 3
+    B     | 2             | 5
+    C     | 3             | 9
+    D     | 6             | 8
+    In this case the maximum number of events is two. 
+
+    we can think of 3 greedy algorithms to solve this problem:
+        1. Select the earliest (starting) next event. (X) fails as it can be too long and block other events.
+        2. Select the shortest next event.            (X) may block other events and can't guarantee the optimal solution.
+        3. Select the earliest (ending) next event.   (✓) (Optimal Solution)
+*/
+
+/* Dynamic Programming (DP) a technique where we:
+        1. Break down a problem into smaller subproblems
+        2. Store results of subproblems to avoid recomputation
+        3. Build up the final answer incrementally
+
+Example: The "wow" Problem (ECPC Team selection\Contest 1\G_(DP).cpp)
+
+    - The problem --> We need to count "wow"s in a string (vv" + "o" + "vv" (i.e., "wow" where w = consecutive "vv").
+    - subproblems --> instead of counting "wow"s directly we can count "w", "wo", and "wow", so we can Build the final answer incrementally
+    - Steps:
+        1. Defining (States):
+            At each position in the string, we track how many partial matches we've found:
+            (State): w_count, wo_count, wow_count
+
+        2. State Transitions
+            Finding 'v' (when previous was also 'v'):
+            - We formed a new "w"
+            - This new "w" can extend all existing "wo" → new "wow"s
+            - wow_count += wo_count
+            - w_count += 1
+
+            Finding 'o':
+            - This "o" can extend all existing "w" → new "wo"s
+            - wo_count += w_count
+
+*/
+
+/* Graph
+    - Many programming problems can be solved by modeling the problem as a graph
+      problem and using an appropriate graph algorithm. 
+
+    - Graph terminology:
+        - A graph consists of (n) nodes and (m) edges connecting them.
+        - A path is a (cycle) if the first and last node is the same.
+        - A graph is (simple) if no edge starts and ends at the same node, and there are no multiple edges between two nodes. 
+        - A graph is (connected) if there is a path between any two nodes. 
+            unconected parts of a graph are called (components).
+            it's (directed) if edges have 1 directions, and (weighted) there're values assigned to them.
+
+        - A (tree) is a connected graph that consists of n nodes and n−1 edges. 
+            There is a (unique path) between any two nodes of a tree. 
+
+        - The (degree of a node) is the number of its neighbors (nodes connected directly to it).
+            (indegree) of a node is the number of edges directed to the node, and the 
+            (outdegree) of a node is the number of edges directed (start) from the node.
+
+        - The (sum of degrees) in a graph = 2m.
+        - A graph is (regular) if the degree of every node is a constant d. (a tree is a regular graph with d = 1)
+            (complete) if the degree of every node is n−1 (the graph contains all possible edges between nodes)
+
+        - In a coloring of a graph, no adjacent nodes have the same color.
+            a graph can be colored by 2 colors only (bipartite) when it does not contain a cycle with an odd number of edges. 
+
+    - Graph representation:
+        - Adjacency list: array of size N (number of nodes) where each node has a vector to store the nodes it's coneected to.
+            vector<int> adj[N];
+            1 --> 2
+            2 --> 3, 4
+            3 --> 4
+            4 --> 1
+
+        - Adjacency matrix: a 2x2 array that indicates the edges (cannot be used if the graph is large)
+              ( 1 2 3 4 )
+            (1) 0 1 0 0
+            (2) 0 0 1 1
+            (3) 0 0 0 1
+            (4) 1 0 0 0
+
+        - Edge list: contains all edges of a graph in some order. This is a convenient way to represent a graph if the algorithm processes all edges of the graph
+            vector<tuple<int,int,int>> edges;    
+            edges.push_back({1,2});
+            edges.push_back({2,3});
+            edges.push_back({2,4});
+            edges.push_back({3,4});
+            edges.push_back({4,1});
+
+    - Graph traversal: 
+        - Depth-first search (DFS)
+            - Doesn't guarantee the optimal solution, time complexity O(n + m)
+            - frontier implemented as a (stack)
+        
+        - Breadth-first search (BFS)
+            - take more time in avarage but it guarantees the optimal solution, time complexity O(n + m) 
+            - explores the graph level by level
+
+            - start with a frontier (implemented as a queue) that contains the initial state.
+            - start with an empty explored set.
+            - repeat:
+                1. if the frontier is empty --> no solution.
+                2. remove a node from the frontier.
+                3. if it matches the goal state --> return the solution
+                4. add it to the explored set.
+                5. expand it (add its not explored neighbours to the frontier)   
+
+*/
+
+
+/* Partial Sum
+    Given q ranges of the form [l,r], find for each point x∈[1,n]
+    the number of ranges that contain that point.
+
+    Solution: arr[l]++ and arr[r+1]-- ,then after taking all ranges perform (prefix sum)
+    
+    For the range [1, 3]
+    arr = [1,0,0,−1,0,0]    --> 1 at (1)-1 and -1 at (3)
+    arr = [1, 1, 1, 0, 0, 0]  // after prefix sum
+*/
 
 /* Maths
 
@@ -390,27 +715,59 @@ bool hasNoDecimal(double x)
                 S   = n(n+1)/2
         
         2nd degree: 
-            S = 1^2 + 2^2 + 3^2 .... n^2   -->      n(n+1)(2n+2)/6
+            S = 1^2 + 2^2 + 3^2 .... n^2   -->      n(n+1)(2n+1)/6
     end 
 
-    Prime and Factors
-        any number can be represented by its prime factors: n = p1^α1 * p2^α2··· pk^αk,
-        84 = (2^2) * (3^1) * (7^1)
+    Prime and Factors (General\Important Concepts\prime_factors.cpp)
 
-        so to form a factor you can use 2 --> 0, 1, or 2 times and 3 --> 0, or 1 times and so on
-        so number of factors (compination) = (α1 + 1) * (α2 + 1) * ...
-        84 --> 3 * 2 * 2 = 12
-
-        cout << "prime factors of n are : ";
-        for (int i = 2; i * i <= n; i++)
-        {
-            while (n % i == 0)
+        - Any number can be represented by its prime factors: n = p1^α1 * p2^α2··· pk^αk,
+          84 = (2^2) * (3^1) * (7^1)
+ 
+        - Get prime fators algorithim O(sqrt(n))
+        
+            map<int, int> factors;
+            for (int i = 2; i * i <= n; i++)
             {
-                n /= i;
-                cout << i << " ";
+                while (n % i == 0)
+                {
+                    n /= i;
+                    factors[i]++;
+                }
             }
-        }
-        if(n > 1) cout << n;            // the number itself might be prime so it would be greater than sqrt(n)
+            if(n > 1) factors[n]++;            // the number itself might be prime so it would be greater than sqrt(n)
+        
+        - The sieve of Eratosthenes O(n*log(n))  غربال ايراتوسثينيس 
+            a preprocessing algorithm that builds an array (sieve)
+            using which we can efficiently check if a given number between 2...n is prime
+            and, if it is not, find one prime factor of the number.
+        /
+
+        - Number of Factors: (α1 + 1) * (α2 + 1) * ...
+
+            to form a factor of 84 you can use 2 --> 0, 1 (2 times) and 3 --> 0 (once) from that we can conclude:
+            number of factors (combinations) = (α1 + 1) * (α2 + 1) * ...
+            84 --> 3 * 2 * 2 = 12
+
+        - Sum of factors: ( (p1^(α1+1) - 1) / (p1 - 1) ) * ( (p2^(α2+1) - 1) / (p2 - 1) ) * ...
+            
+            we can form each factor from prime factors (with unique combination of powers each time)
+            for example: 2: 2^1 * 3^0 * 7^0, 42 = 2^1 * 3^1 * 7^1
+
+            so when you multiply the sums of the prime factors powers the distributive property creates 
+            every possible combination of prime factors, and therefore creates every possible factor
+            we need to sum:
+            sum_of_factors(84) = (1 + 2 + 2^2) * (1 + 3) * (1 + 7)
+            using geometric progression: 
+                               = ((2^3 - 1) / (2-1)) * ((3^2 - 1) / (3-1)) * ((7^2 - 1) / (7-1))
+                               = 7 * 4 * 8 = 224
+
+        - Product of factors: n^(number_of_factors / 2)
+            6 -> 1, 2, 3, 6 -> 2 * 3
+            Product of factors = (6*1) * (2*3) = 6 * 6 = 6^2
+            so we could conclude that power from number_of_factors = 4
+            and each 2 factors make one 6, so power = 4/2 = 2 
+        84 --> 84^6
+
     end
 
     LCM - GCD
