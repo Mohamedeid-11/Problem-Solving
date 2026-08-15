@@ -19,4 +19,4 @@ function toh(N, from, to, aux)
 }
 
 
-console.log(toh(64, 1, 3, 2));
+console.log(toh(2, 1, 3, 2));

@@ -7,13 +7,32 @@ bool visited[N];
 
 void dfs(int node)
 {
-    visited[node] = true;
-    cout << node + 1 << " ";
+    // visited[node] = true;
+    // cout << node + 1 << " ";
 
-    for (auto neighbour : adj[node])
+    // for (auto neighbour : adj[node])
+    // {
+    //     if (!visited[neighbour])
+    //        dfs(neighbour);
+    // }
+    stack<int> frontier;
+    frontier.push(node);
+
+    while(!frontier.empty())
     {
-        if (!visited[neighbour])
-           dfs(neighbour);
+        int node = frontier.top();
+        frontier.pop();
+        if(!visited[node])
+        {
+            visited[node] = true;
+            cout << node + 1 << " ";
+
+            for(auto child : adj[node])
+            {
+                if(!visited[child])
+                    frontier.push(child);
+            }
+        }
     }
 }
 

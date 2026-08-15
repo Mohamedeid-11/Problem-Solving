@@ -1,7 +1,7 @@
+#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
-#include <iostream>
 #include <limits.h>
 
 #include <bits/stdc++.h>
@@ -34,10 +34,10 @@ long long a = (1LL)*n*n + (long long)l*l;      // or:      (static_cast<long lon
 cout << a;
 
 //                                                    Complexity
-// n ≤ 12           O(n!)
-// n ≤ 25           O(2^n)
+// n ≤ 10           O(n!)
+// n ≤ 20           O(2^n)
 // n ≤ 500          O(n^3)
-// n ≤ 10^4         O(n^2)
+// n ≤ 5000         O(n^2)
 // n ≤ 10^6         O(n*Log(n))
 // n ≤ 10^8         O(n)
 // n ≤ 10^18        O(Log(n)), O(1)
@@ -46,10 +46,141 @@ cout << a;
 // All possiple subsets O(2^n)
 // All possible permutations O(n!)
 
+//                                                       RULES
+// 1. Avoid (Overflow) --> long long, double
+// 2. Avoid (Flooting points) as possible
+// 3. check (x-y) < 1e-9 for floats equality
+// 4. Don't you EVER skip (test cases)
+
+// 5. Check time limit:
+
+// 6. To solve a problem you have to:
+//   1. Design the soluion.
+//   2. Implement it (code it).
+/*  So make sure to identify the (Core problem type):
+//                          [ Analyze Constraint N ]
+//                                      |
+//          +---------------------------+---------------------------+
+//          |                                                       |
+//    (N is small: N ≤ 20)                                (N is large: N ≥ 10^5)
+//          |                                                       |
+//  [Bitmask / Permutations]                                        |
+//        O(2^N) or O(N!)                                           |
+//                                                [ Does Sorting or Guessing help? ]
+//                                                                  |
+//                                         +------------------------+------------------------+
+//                                         |                                                 |
+//                                       (Yes)                                              (No)
+//                                         |                                                 |
+//                        [Is it monotonic when guessing?]                          [Check Structure]
+//                                         |                                                 |
+//                           +-------------+-------------+                  +----------------+----------------+
+//                           |                           |                  |                                 |
+//                         (Yes)                        (No)         [Graph/Network?]                 [Math/Constructive?]
+//                           |                           |                  |                                 |
+//                   [Binary Search]                  [Greedy]        [BFS/DFS/Dijkstra]                [Math / O(1) / O(N)]
+//                  O(N log(Answer))                 O(N log N)       O(V + E log V)
+
+// 1. Pure Simulation / Ad-Hoc
+// How to Identify: The problem statement is long, detailed, and acts like a rulebook (e.g., simulating a game of chess, a card game, or robot instructions). There is no hidden math; you just code exactly what is written.
+
+// 2. Math / Number Theory / Combinatorics
+
+// How to Identify: Asks for answers modulo 10^9+7, requires counting arrangements, finding divisors, prime factorization, or dealing with huge coordinate geometry spaces.
+// Triggers: "Count the number of ways...", "Find the number of pairs (i, j) such that gcd(A_i, A_j) = 1".
+// Constraints & Complexity:
+// N <= 10^{18} --> O(1) or O(log N) (e.g., Fast Exponentiation, Euclidean GCD).
+//    N <= 10^7 --> O(N) or O(N log log N) (e.g., Sieve of Eratosthenes).
+
+// 3. Constructive Algorithms
+
+// How to Identify: The problem asks you to construct an array, matrix, or graph satisfying highly specific conditions. It usually states: "If multiple solutions exist, print any."
+// Triggers: "Construct an array where no two adjacent elements...", "Output a matrix such that the sum of each row is prime."
+// Constraints & Complexity: N <= 10^5 --> O(N). It requires finding an invariant or a pattern, not a heavy data structure.
+
+// 4. Greedy
+
+// How to Identify: Making a locally optimal choice right now never ruins your choices later. Sorting or picking the absolute maximum/minimum element at each step yields the correct global answer.
+// Triggers: "Find the minimum number of operations...", "Maximize the total value...".
+// Constraints & Complexity: N <= 10^5 --> O(N log N) (heavily dominated by std::sort).
+
+// 5. Binary Search (On Answer /  )
+
+// How to Identify: Finding the exact answer directly is incredibly hard, but verifying a "guessed" answer is very easy. This means if a guessed number works, all numbers larger than it also work (or vice versa). Your goal is to find the exact boundary where the answer flips from working to not working.
+// Triggers: "Minimize the maximum...", "Maximize the minimum...".
+// Constraints & Complexity: Range up to 10^{18} --> O(N log(text{Max_Value})).
+
+// 6. Two Pointers & Sliding Window
+
+// How to Identify: You are scanning a linear structure (array or string) to find a continuous subarray, subsegment, or a pair of elements that meet a condition.
+// Triggers: "Find the longest contiguous subarray with sum <= K", "Find a pair with sum equal to X in a sorted array."
+// Constraints & Complexity: N <= 10^7 --> O(N) because the left and right pointers only move forward.
+
+// 7. Divide and Conquer
+
+// How to Identify: The problem can be split into two entirely independent halves, solved separately, and then merged efficiently.
+// Triggers: Inversion counting, calculating large polynomial multiplications, or evaluating recurrence relations via Matrix Exponentiation.
+// Constraints & Complexity: N <= 10^5 --> O(N log N) or K <= 100 --> O(K^3 log N) for matrix exponentiation.
+
+// 8. Basic Graphs & Trees (Traversal)
+
+// How to Identify: Explicitly describes networks, cities connected by roads, family trees, or 2D grids where you can move up/down/left/right.
+// Triggers: "Find the shortest path in an unweighted grid", "Check if a network is fully connected", "Find the diameter of a tree."
+// Constraints & Complexity: V, E <= 10^5 --> O(V + E) using BFS (for unweighted shortest path) or DFS (for connectivity/trees).
+
+// 9. Advanced Graphs (Shortest Paths & MST)
+
+// How to Identify: Graphs where edges have variable costs/weights, and you need to optimize paths or connect everything with the lowest possible cost.
+// Triggers: "Find the cheapest flight path...", "Connect all servers using the minimum length of cable."
+// Constraints & Complexity: V, E <= 10^5 --> O(E log V) using Dijkstra (shortest path) or Kruskal’s/DSU (Minimum Spanning Tree).
+
+// 10. Dynamic Programming (DP)
+
+// How to Identify: Choices are highly dependent. Choosing an option now restricts or changes your choices in the next step. (forcing You to consider the future consequences, unike greedy) A recursive tree shows that you are calculating the exact same parameters over and over.
+// Dynamic Programming simply means: The first time you calculate the best way to get from Floor 2 to the top, you save that answer in a table (array). The next time you land on Floor 2, you just look up the answer instantly instead of recalculating it.
+// Triggers: "Find the maximum profit given a limited capacity...", "Count the number of paths from top-left to bottom-right under conditions."
+// Constraints & Complexity:
+// N <= 5000 --> O(N^2) states.
+//    N <= 500 --> O(N^3) states.
+
+// 11. Range Queries & Static Data Structures
+
+// How to Identify: You are given an array, and you must process thousands of queries. The array elements might update dynamically between queries.
+// Triggers: "Query: find the sum/minimum from index L to R. Update: change element at index i to X."
+// Constraints & Complexity: N, Q <= 10^5 --> O(Q log N) using Segment Trees or Fenwick Trees (BIT). If there are no updates, O(1) query using Sparse Tables or Prefix Sums.
+
+// 12. String Algorithms
+
+// How to Identify: Heavy pattern matching, finding repeating substrings, or calculating cyclic shifts. Standard string methods will TLE (O(N^2)).
+// Triggers: "Find all occurrences of pattern P in string S", "Find the longest palindromic prefix."
+// Constraints & Complexity: abs(S) <= 10^6 --> O(abs(S)) using KMP, Z-Algorithm, or String Hashing.
+
+// 13. Bitmask / Subset Generation (Small N)
+
+// How to Identify: The constraints are deliberately engineered to be incredibly small, signaling that you must explore every single mathematical combination.
+// Triggers: "Choose a subset of items...", "Find a permutation of elements...".
+// Constraints & Complexity:
+// N <= 20 --> O(2^N) (Iterating through all subsets or Bitmask DP).
+//    N <= 10 --> O(N!) (Iterating through all permutations via std::next_permutation).
+
+// 14. Meet-in-the-Middle
+
+// How to Identify: A subset problem where N is just slightly too large for an O(2^N) approach, but too small for anything else.
+// Triggers: "Find a subset that sums exactly to X," where N approx 40.
+// Constraints & Complexity: N <= 40 --> O(2^{N/2} log(2^{N/2})) by splitting the array into two halves of size 20, generating all subsets for both, and using binary search to match them.
+
+// ------------------------------
+// Ultimate Pre-Coding Strategy
+// When you open a problem, mentally execute this 3-Second Filter Pipeline:
+
+//    1. Check N: Is it <= 20? Jump straight to Bitmask/Permutations. Is it ge 10^{12}? Jump straight to Math/O(1)/O(log N).
+//    2. Check Structure: Does it mention strings, grids/graphs, or interval updates? Instantly narrow your focus to those specific standard data structures.
+//    3. The Dependency Test: If it's a general array/sequence problem, ask: Does sorting fix it? If Yes rightarrow Greedy/Two Pointers. If No, ask: Can I binary search a guessed answer? If Yes rightarrow Binary Search on Answer. If No rightarrow Dynamic Programming.
+*/
 
 
 //                                                  Read & Write
-// The C functions scanf and printf
+// The C functions scanf and printf (Formated String)
 // alternative to the C++ standard streams. They are usually a bit faster, but they are also more difficult to use.
 int a, b;
 scanf("%d %d", &a, &b);
@@ -112,6 +243,7 @@ num = nullptr;
 
     - STL --> list<T>
         Doubly Linked
+        
         No Random Access O(n): You must traverse the list using iterators.
         Dynamic Size: Lists can grow or shrink dynamically as elements are added or removed
 
@@ -252,10 +384,63 @@ num = nullptr;
     cout << sizeof(n) << endl;
 /
 
+/* Macros
+    Another way to shorten code is to define macros. A macro means that certain
+    strings in the code will be changed before the compilation. In C++, macros are
+    defined using the #define keyword.
+*/
+#define F first
+#define S second
+#define PB push_back
+#define MP make_pair
+
+#define REP(i,a,b) for (int i = a; i <= b; i++)
+
+// then we can user the for loop like:
+REP(i,1,n) {
+    search(i);
+}
+
+
 
 // Ternary (conditional) operator
 int num = 9;
 cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" : "Equal")); // nested ternary
+
+
+    
+// User-defined structs (comparison)
+struct P {
+    int x, y;
+    bool operator<(const P &p) {
+        if (x != p.x) return x < p.x;
+        else return y < p.y;
+    }
+}
+
+
+// Comparison functions
+//     It is also possible to give an external comparison function to the sort function
+//     as a callback function. For example, the following comparison function comp sorts
+//     strings primarily by length and secondarily by alphabetical order:
+bool comp(string a, string b) {
+    if (a.size() != b.size()) return a.size() < b.size();   
+    return a < b;
+}
+
+// Custom comparator: ascending by .second, descending by .first
+struct comp {
+    bool operator()(const pair<int, int>& a, const pair<int, int>& b) const {
+        if (a.second != b.second) {
+            return a.second < b.second; // Ascending by .second
+
+        }
+        return a.first > b.first;   // Descending by .first
+    }
+};
+
+// Now a vector of strings can be sorted as follows:
+sort(v.begin(), v.end(), comp);
 
 
 #include<algorithm>
@@ -266,10 +451,16 @@ cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" :
     sort(vec.begin(), vec.end());           // sort string or vector. use begin(), end() iterators   (end() points one after the last char)
     
     /* Some sort alogorithms: 
-        - bubble sort, insertion sort, selection sort --> O(n^2) 
-        (exmple) Bubble Sort: compares adjacent elements and swaps them if they are in the wrong order. (move smaller elemments into the far left or larger elements into the far right)
+        - O(n^2): 
+            Bubble Sort: compares adjacent elements and swaps them if they are in the wrong order. (move smaller elemments into the far left or larger elements into the far right)
+            insertion sort
+            selection sort
                 
-        - Merge Sort O(n*log(n)): divides the array into halves, sorts each half, and then merges the sorted halves back together. (divide and conquer)
+        - O(nlog(n)): 
+            Merge Sort: divides the array into halves, sorts each half, and then merges the sorted halves back together. (divide and conquer)
+        
+        - O(n):
+            Counting sort: You simplly build a frequency array in O(n) then construct it in O(n). The constraint here is the range of numberes (n) 
     */
 
     // Reverse
@@ -313,6 +504,8 @@ cout << "num relativity to 5 is " << (num > 5 ? "greater" : (num < 5 ? "lower" :
     stod(str)                   // string to double
     stoll(str)                  // string to long long
    
+    str.append(100, 'A');       // add 100 'A's
+
     str.back()                  // reference to the last element == str[size(str) - 1]
 
     s.begin()                   // gets an iterator to the first element in an string
@@ -359,6 +552,7 @@ bool hasNoDecimal(double x)
 
 // Map (dictionary)
     map<int, int> numbers;
+    
     int n = 10, num;
     for(int i = 0; i < n; i++)
     {
@@ -402,6 +596,18 @@ Priority queue
 
     - min priority queue: 
         priority_queue<int, vector<int>, greater<int>> mpq; 
+Bitset
+    A bitset is an array whose each value is either 0 or 1. For example, the following
+    code creates a bitset that contains 10 elements:
+        bitset<10> s;
+        s[1] = 1;
+        s[3] = 1;
+        s[4] = 1;
+        s[7] = 1;
+        // or bitset<10> s(string("0010011010")); // from right to left
+        cout << s << "\n";    // 0010011010
+        cout << s[4] << "\n"; // 1
+        cout << s[5] << "\n"; // 0
 
 
 Inner Structures:
@@ -420,13 +626,13 @@ Inner Structures:
                                     
         - Some problems might include anti-hash tests, which can cuase it run in O(n^2)
     
-                                    (BST vs hash table)
-    ----------------- unordered_container   vs    container ---------------------------
-    | Implementation    Hash Table	                Balanced Binary Tree (Red-Black)  |
-    | Average Speed	    O(1)                        O(log N)                          | (adding, removing, and checking)
-    | Worst-Case	    O(N)                        O(log N)                          |
-    | Ordering          None                        Sorted                            |
-    -----------------------------------------------------------------------------------
+                                    (hash table vs BST)
+    ----------------- unordered_container     vs    container ---------------------------
+    | Implementation    Hash Table	                  Balanced Binary Tree (Red-Black)  |
+    | Average Speed	    O(1)                          O(log N)                          | (insertion, deletion, and Look-up)
+    | Worst-Case	    O(N)                          O(log N)                          |
+    | Ordering  (doesn't keep insertion order)   (Sorts the elemnets ascendingly)       |
+    -------------------------------------------------------------------------------------
 
 
 Set
@@ -489,6 +695,18 @@ Map (dictionary)
 
     cout << "lower bound for element 5 is at index: " << lower_bound(arr, arr + 5, 5) - arr << endl;    // lower bound for element 5 is at index: 1
     cout << "upper bound for element 10 is at index: " << upper_bound(arr, arr + 5, 10) - arr << endl;  // upper bound for element 10 is at index: 5 (Not Found)
+
+
+    **(NOTICE)**
+    the previous global function std::upper_bound requires (random access) to be able to run in O(log(n))
+    using it with (set) or (multiset) will run in O(n) instead as there's no random access.
+    (the same applies to std::map and std::multimap)
+    
+    (INSTEAD)
+    use the embedded methods: 
+    
+    s.lower_bound(value);
+    s.upper_bound(value);
 */
 
 /* Complete search
@@ -674,11 +892,11 @@ Example: The "wow" Problem (ECPC Team selection\Contest 1\G_(DP).cpp)
     Given q ranges of the form [l,r], find for each point x∈[1,n]
     the number of ranges that contain that point.
 
-    Solution: arr[l]++ and arr[r+1]-- ,then after taking all ranges perform (prefix sum)
+    Solution: arr[l-1]++ and arr[r]-- ,then after taking all ranges perform (prefix sum)
     
     For the range [1, 3]
-    arr = [1,0,0,−1,0,0]    --> 1 at (1)-1 and -1 at (3)
-    arr = [1, 1, 1, 0, 0, 0]  // after prefix sum
+    arr = [1, 0, 0, −1, 0, 0]    --> 1 at (1)-1 and -1 at (3)
+    arr = [1, 1, 1,  0, 0, 0]  // after prefix sum
 */
 
 /* Maths
@@ -692,7 +910,7 @@ Example: The "wow" Problem (ECPC Team selection\Contest 1\G_(DP).cpp)
         This formula can be derived as follows: 
             Let S = (a) + ak + ak^2 +··· + b
             By multiplying both sides by k, we get
-            kS = ak + ak^2 + ak^3 +··· + (bk)
+            kS = ak + ak^2 + ak^3 +··· + b + (bk)
             and solving the equation
             kS − S = bk − a
             S(k-1) = bk-a
@@ -864,7 +1082,33 @@ Example: The "wow" Problem (ECPC Team selection\Contest 1\G_(DP).cpp)
 
 //
 
+// Class & templates 
+// .h file (decleration)
+template <class N>
+class rec
+{
+private:
+    N width;
+    N height;
 
+public:
+    rec(N, N);
+    rec();
+    N area();
+    ~rec() {};
+};
+
+// .cpp file (difinitions)
+#include "rec.h"
+
+template <class N>
+rec<N>::rec(N w, N h) : width(w), height(h) {} // constructor
+
+template <class N>
+N rec<N>::area() // (::) is the Scope Resolution Operator
+{
+    return width * height;
+}
 
 // int nums[5] = {1, 4, 9, 2, 6};
 // cout << *max_element(nums, nums + 5);

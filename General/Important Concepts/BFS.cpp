@@ -5,12 +5,13 @@ using namespace std;
 // explores the graph level by level, and gets the shortest path (optimal solution)
 // but takes longer time on average
 
+
 int main()
 {
     int n, m, u, v;
     cin >> n >> m;
 
-    vector<int> adj[n]{};
+    // vector<int> adj[n]{};
     for (int i = 0; i < m; i++)
     {
         cin >> u >> v;
